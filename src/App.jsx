@@ -9,6 +9,8 @@ import Footer from "./components/Footer";
 import About from "./pages/About/index";
 import Contact from "./pages/Contact/index";
 import PrivacyPolicy from "./pages/PrivacyPolicy/index";
+import SignUp from "./pages/SignUp/index";
+import LogIn from "./pages/LogIn/index";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<LogIn />} />
       </Routes>
       <Footer />
     </>

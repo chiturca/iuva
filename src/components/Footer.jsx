@@ -28,7 +28,7 @@ export default function Footer() {
               <img src={logo} alt="logo" />
             </div>
           </Link>
-          <ul name="links" className="justify-center flex flex-row md:flex-col">
+          <ul name="links" className="justify-center flex flex-col md:flex-row">
             <li className="text-lg">{linksToDisplay}</li>
           </ul>
         </div>
