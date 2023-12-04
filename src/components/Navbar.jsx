@@ -50,7 +50,7 @@ export default function Navbar() {
   ];
   const authLinks = [
     { href: "/announcementpool", name: `Duyuru Havuzu` },
-    { href: "/myprofile", name: `Profilim` },
+    { href: "/profile", name: `Profilim` },
     { href: "/createannouncement", name: `Duyuru Oluştur` },
     { href: "/myannouncements", name: `Duyurularım` },
   ];

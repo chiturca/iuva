@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function AnnoucementPool() {
-  return <div>AnnoucementPool</div>;
+export default function AnnouncementPool() {
+  return <div>AnnouncementPool</div>;
 }
