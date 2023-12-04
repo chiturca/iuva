@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -12,6 +12,7 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [user, setUser] = useState(null);
   const open = Boolean(anchorEl);
+  const location = useLocation();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -47,33 +48,21 @@ export default function Navbar() {
     { href: "/myannouncements", name: `Duyurularım` },
   ];
 
-  const linksToDisplay = user
-    ? authLinks.map((link) => (
-        <div>
-          <NavLink
-            className={
-              "px-5 text-gray-500 font-medium hover:text-[#2D3BBF] duration-500"
-            }
-            key={link.name}
-            to={link.href}
-          >
-            {link.name}
-          </NavLink>
-        </div>
-      ))
-    : links.map((link) => (
-        <div>
-          <NavLink
-            className={
-              "px-5 text-gray-500 font-medium hover:text-[#2D3BBF] duration-500"
-            }
-            key={link.name}
-            to={link.href}
-          >
-            {link.name}
-          </NavLink>
-        </div>
-      ));
+  const linksToDisplay = (user ? authLinks : links).map((link) => (
+    <div key={link.name} className="p-2">
+      <NavLink
+        className={`px-5 text-gray-500 font-medium hover:text-[#2D3BBF] duration-500 ${
+          location.pathname === link.href
+            ? "bg-[#2D3BBF] bg-opacity-50 text-white p-2 rounded-lg"
+            : ""
+        }`}
+        key={link.name}
+        to={link.href}
+      >
+        {link.name}
+      </NavLink>
+    </div>
+  ));
 
   return (
     <nav className="bg-[#E4E5E9] shadow-md">
