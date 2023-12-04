@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -13,10 +13,17 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const open = Boolean(anchorEl);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleLinkClick = (link) => {
+    navigate(link.href);
+    handleClose();
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -58,6 +65,7 @@ export default function Navbar() {
         }`}
         key={link.name}
         to={link.href}
+        onClick={() => handleLinkClick(link)}
       >
         {link.name}
       </NavLink>
