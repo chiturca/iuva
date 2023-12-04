@@ -34,13 +34,22 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    auth.signOut();
+    auth
+      .signOut()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Logout Error:", error);
+      });
   };
 
   const logoutButton = user && (
-    <Button color="error" variant="outlined" onClick={handleLogout}>
-      Logout
-    </Button>
+    <div className="flex items-center justify-center">
+      <Button color="error" variant="outlined" onClick={handleLogout}>
+        Logout
+      </Button>
+    </div>
   );
 
   const links = [
@@ -56,7 +65,7 @@ export default function Navbar() {
   ];
 
   const linksToDisplay = (user ? authLinks : links).map((link) => (
-    <div key={link.name} className="p-2">
+    <div key={link.name} className="py-2">
       <NavLink
         className={`px-5 text-gray-500 font-medium hover:text-[#2D3BBF] duration-500 ${
           location.pathname === link.href

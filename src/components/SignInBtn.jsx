@@ -6,9 +6,7 @@ export default function SignInBtn() {
   const navigate = useNavigate();
   const handleSignIn = async () => {
     try {
-      const result = await signInWithGoogle();
-      console.log("Google Auth Result:", result);
-
+      await signInWithGoogle();
       navigate("/announcementpool");
     } catch (error) {
       console.error("Google Auth Error:", error);
