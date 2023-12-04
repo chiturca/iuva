@@ -1,5 +1,10 @@
 import React from "react";
+import Layout from "../../components/Layout";
 
 export default function AnnouncementPool() {
-  return <div>AnnouncementPool</div>;
+  return (
+    <Layout>
+      <div>AnnouncementPool</div>
+    </Layout>
+  );
 }
