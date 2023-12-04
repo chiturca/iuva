@@ -18,11 +18,20 @@ export { app, auth };
 const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      console.log("Google Auth Result:", result);
-    })
-    .catch((error) => {
-      console.log("Google Auth Error:", error);
-    });
+  return new Promise((resolve, reject) => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("Google Auth Error:", error);
+        reject(error);
+      });
+  });
+};
+
+export const checkAuthState = (setUser) => {
+  return auth.onAuthStateChanged((user) => {
+    setUser(user);
+  });
 };

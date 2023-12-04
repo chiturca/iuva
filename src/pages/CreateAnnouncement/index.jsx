@@ -1,5 +1,10 @@
 import React from "react";
+import Layout from "../../components/Layout";
 
 export default function CreateAnnouncement() {
-  return <div>CreateAnnouncement</div>;
+  return (
+    <Layout>
+      <div>CreateAnnouncement</div>
+    </Layout>
+  );
 }

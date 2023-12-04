@@ -1,37 +1,84 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 // import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
 import dots from "../assets/dots.png";
+import { auth, checkAuthState } from "../Firebase";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [user, setUser] = useState(null);
   const open = Boolean(anchorEl);
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleLinkClick = (link) => {
+    navigate(link.href);
+    handleClose();
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    const unsubscribe = checkAuthState(setUser);
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Logout Error:", error);
+      });
+  };
+
+  const logoutButton = user && (
+    <div className="flex items-center justify-center">
+      <Button color="error" variant="outlined" onClick={handleLogout}>
+        Logout
+      </Button>
+    </div>
+  );
 
   const links = [
     { href: "/", name: `Ana Sayfa` },
     { href: "/login", name: `Giriş Yap` },
     { href: "/signup", name: `Duyuru Yap/Bağışçı Ol` },
   ];
+  const authLinks = [
+    { href: "/announcementpool", name: `Duyuru Havuzu` },
+    { href: "/profile", name: `Profilim` },
+    { href: "/createannouncement", name: `Duyuru Oluştur` },
+    { href: "/myannouncements", name: `Duyurularım` },
+  ];
 
-  const linksToDisplay = links.map((link) => (
-    <NavLink
-      className={
-        "px-5 text-gray-500 font-medium hover:text-[#2D3BBF] duration-500"
-      }
-      key={link.name}
-      to={link.href}
-    >
-      {link.name}
-    </NavLink>
+  const linksToDisplay = (user ? authLinks : links).map((link) => (
+    <div key={link.name} className="py-2">
+      <NavLink
+        className={`px-5 text-gray-500 font-medium hover:text-[#2D3BBF] duration-500 ${
+          location.pathname === link.href
+            ? "bg-[#2D3BBF] bg-opacity-50 text-white p-2 rounded-lg"
+            : ""
+        }`}
+        key={link.name}
+        to={link.href}
+        onClick={() => handleLinkClick(link)}
+      >
+        {link.name}
+      </NavLink>
+    </div>
   ));
 
   return (
@@ -43,7 +90,10 @@ export default function Navbar() {
               <img src={logo} alt="logo" />
             </div>
           </Link>
-          <div className="hidden md:flex space-x-4">{linksToDisplay}</div>
+          <div className="hidden md:flex space-x-4 items-center">
+            {linksToDisplay}
+            {logoutButton}
+          </div>
           {/* Add a responsive menu button for smaller screens */}
           <div className="md:hidden">
             <div>
@@ -66,19 +116,8 @@ export default function Navbar() {
                 open={open}
                 onClose={handleClose}
               >
-                {links.map((link) => (
-                  <div>
-                    <NavLink
-                      className={
-                        "px-5 text-gray-500 font-medium hover:text-[#2D3BBF] duration-500"
-                      }
-                      key={link.name}
-                      to={link.href}
-                    >
-                      {link.name}
-                    </NavLink>
-                  </div>
-                ))}
+                {linksToDisplay}
+                {logoutButton}
               </Menu>
             </div>
           </div>
