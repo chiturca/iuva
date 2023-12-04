@@ -26,3 +26,9 @@ export const signInWithGoogle = () => {
       console.log("Google Auth Error:", error);
     });
 };
+
+export const checkAuthState = (setUser) => {
+  return auth.onAuthStateChanged((user) => {
+    setUser(user);
+  });
+};
